@@ -255,7 +255,7 @@
     <string name="share_screenshot_info">%1$s: %2$s, %3$s</string>
     <string name="episode_progress">முன்னேற்றம்: %1$s/ %2$s</string>
     <string name="episode_progress_no_total">முன்னேற்றம்: %1$s</string>
-    <string name="recent_anime_time">ஈ.பி. %1 $ C - %$ 2 s</string>
+    <string name="recent_anime_time">ஈ.பி. %1$s - %2$s</string>
     <string name="video_list_empty_error">வீடியோ எதுவும் கிடைக்கவில்லை</string>
     <string name="notification_new_episodes">புதிய அத்தியாயங்கள் காணப்பட்டன</string>
     <string name="information_no_recent_anime">அண்மைக் காலத்தில் எதுவும் பார்க்கவில்லை</string>
