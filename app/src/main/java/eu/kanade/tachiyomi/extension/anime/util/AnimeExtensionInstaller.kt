@@ -93,7 +93,9 @@ internal class AnimeExtensionInstaller(private val context: Context) {
                 )
             } catch (e: Exception) {
                 logcat(LogPriority.ERROR, e) { "Failed to download extension" }
-                emit(InstallStep.Error)
+                if (kotlinx.coroutines.currentCoroutineContext().isActive) {
+                    emit(InstallStep.Error)
+                }
             }
         }.transformWhile {
             emit(it)
