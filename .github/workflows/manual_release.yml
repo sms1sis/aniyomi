@@ -23,7 +23,7 @@ jobs:
       - name: Set up JDK
         uses: actions/setup-java@3a4f6e1af504cf6a31855fa899c6aa5355ba6c12 # v4.7.0
         with:
-          java-version: 17
+          java-version: 21
           distribution: temurin
 
       - name: Set up gradle
@@ -33,7 +33,7 @@ jobs:
         run: ./gradlew assembleRelease -Penable-updater
 
       - name: Sign APK (Official Key)
-        if: secrets.SIGNING_KEY != null
+        if: ${{ secrets.SIGNING_KEY != '' }}
         uses: r0adkll/sign-android-release@f30bdd30588842ac76044ecdbd4b6d0e3e813478 # v1
         with:
           releaseDirectory: app/build/outputs/apk/release
@@ -45,7 +45,7 @@ jobs:
           BUILD_TOOLS_VERSION: '35.0.1'
 
       - name: Sign APK (Temporary Key)
-        if: secrets.SIGNING_KEY == null
+        if: ${{ secrets.SIGNING_KEY == '' }}
         run: |
           keytool -genkey -v -keystore temp.keystore -alias temp -keyalg RSA -keysize 2048 -validity 10000 -storepass password -keypass password -dname "CN=Aniyomi, OU=Aniyomi, O=Aniyomi, L=Aniyomi, S=Aniyomi, C=US"
           for apk in app/build/outputs/apk/release/*-unsigned.apk; do
