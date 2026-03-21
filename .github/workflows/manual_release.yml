@@ -10,6 +10,8 @@ jobs:
   build:
     name: Build app
     runs-on: ubuntu-latest
+    env:
+      HAS_SIGNING_KEY: ${{ secrets.SIGNING_KEY != '' }}
 
     steps:
       - name: Clone repo
@@ -28,7 +30,7 @@ jobs:
         run: ./gradlew assembleRelease -Penable-updater
 
       - name: Sign APK (Official Key)
-        if: ${{ secrets.SIGNING_KEY != '' }}
+        if: env.HAS_SIGNING_KEY == 'true'
         uses: r0adkll/sign-android-release@f30bdd30588842ac76044ecdbd4b6d0e3e813478 # v1
         with:
           releaseDirectory: app/build/outputs/apk/release
@@ -40,7 +42,7 @@ jobs:
           BUILD_TOOLS_VERSION: '35.0.1'
 
       - name: Sign APK (Temporary Key)
-        if: ${{ secrets.SIGNING_KEY == '' }}
+        if: env.HAS_SIGNING_KEY != 'true'
         run: |
           keytool -genkey -v -keystore temp.keystore -alias temp -keyalg RSA -keysize 2048 -validity 10000 -storepass password -keypass password -dname "CN=Aniyomi, OU=Aniyomi, O=Aniyomi, L=Aniyomi, S=Aniyomi, C=US"
           for apk in app/build/outputs/apk/release/*-unsigned.apk; do
