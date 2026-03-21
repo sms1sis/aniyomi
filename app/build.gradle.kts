@@ -93,9 +93,13 @@ android {
     splits {
         abi {
             isEnable = true
-            isUniversalApk = true
+            isUniversalApk = !project.hasProperty("abiSplit")
             reset()
-            include("armeabi-v7a", "arm64-v8a", "x86", "x86_64")
+            if (project.hasProperty("abiSplit")) {
+                include(project.property("abiSplit") as String)
+            } else {
+                include("armeabi-v7a", "arm64-v8a", "x86", "x86_64")
+            }
         }
     }
 

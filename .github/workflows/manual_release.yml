@@ -27,7 +27,7 @@ jobs:
         uses: gradle/actions/setup-gradle@94baf225fe0a508e581a564467443d0e2379123b # v4.3.0
 
       - name: Build app
-        run: ./gradlew assembleRelease -Penable-updater
+        run: ./gradlew assembleRelease -Penable-updater -PabiSplit=arm64-v8a
 
       - name: Sign APK (Official Key)
         if: env.HAS_SIGNING_KEY == 'true'
