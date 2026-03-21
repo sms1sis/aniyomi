@@ -15,6 +15,7 @@ import org.gradle.kotlin.dsl.the
 import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.compose.compiler.gradle.ComposeCompilerGradlePluginExtension
 import org.jetbrains.kotlin.compose.compiler.gradle.ComposeFeatureFlag
+import org.jetbrains.kotlin.gradle.dsl.KotlinJvmCompilerOptions
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 import java.io.File
 
@@ -44,7 +45,9 @@ internal fun Project.configureAndroid(commonExtension: CommonExtension<*, *, *, 
 
     tasks.withType<KotlinCompilationTask<*>>().configureEach {
         compilerOptions {
-            jvmTarget.set(AndroidConfig.JvmTarget)
+            if (this is KotlinJvmCompilerOptions) {
+                jvmTarget.set(AndroidConfig.JvmTarget)
+            }
             freeCompilerArgs.addAll(
                 "-Xcontext-parameters",
                 "-opt-in=kotlin.RequiresOptIn",
