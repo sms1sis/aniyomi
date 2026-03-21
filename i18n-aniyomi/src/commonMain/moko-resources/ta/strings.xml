@@ -201,7 +201,7 @@
     <string name="pref_anime_library_update_categories_details">விலக்கப்பட்ட வகைகளில் அனிம் சேர்க்கப்பட்ட வகைகளில் இருந்தாலும் அவை புதுப்பிக்கப்படாது.</string>
     <string name="unofficial_extension_message_aniyomi">இந்த நீட்டிப்பு அதிகாரப்பூர்வ பட்டியலிலிருந்து அல்ல.</string>
     <string name="unofficial_anime_extension_message">இந்த நீட்டிப்பு அதிகாரப்பூர்வ பட்டியலிலிருந்து அல்ல.</string>
-    <string name="episode_download_progress">%1$d %%</string>
+    <string name="episode_download_progress">%1$d%%</string>
     <string name="pref_remove_exclude_categories_manga">விலக்கப்பட்ட மங்கா வகைகள்</string>
     <string name="pref_remove_exclude_categories_anime">விலக்கப்பட்ட அனிம் வகைகள்</string>
     <string name="pref_category_external_downloader">வெளிப்புற பதிவிறக்குபவர்</string>

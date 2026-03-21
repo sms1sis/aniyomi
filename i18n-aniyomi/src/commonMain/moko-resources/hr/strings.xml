@@ -302,7 +302,7 @@
     <string name="pref_anime_library_update_categories_details">Anime u isključenim kategorijama se neće aktualizirati čak i ako se također nalaze u uključenim kategorijama.</string>
     <string name="unofficial_extension_message_aniyomi">Ovo proširenje nije sa službenog popisa Aniyomi proširenja.</string>
     <string name="unofficial_anime_extension_message">Ovo proširenje nije službeno Aniyomi proširenje.</string>
-    <string name="episode_download_progress">%1$d% %</string>
+    <string name="episode_download_progress">%1$d%%</string>
     <string name="pref_remove_exclude_categories_manga">Isključene manga kategorije</string>
     <string name="pref_remove_exclude_categories_anime">Isključene anime kategorije</string>
     <string name="pref_category_external_downloader">Eksterni upravljač preuzimanja</string>
