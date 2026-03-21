@@ -15,7 +15,7 @@ import org.gradle.kotlin.dsl.the
 import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.compose.compiler.gradle.ComposeCompilerGradlePluginExtension
 import org.jetbrains.kotlin.compose.compiler.gradle.ComposeFeatureFlag
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 import java.io.File
 
 val Project.androidx get() = the<LibrariesForAndroidx>()
@@ -42,7 +42,7 @@ internal fun Project.configureAndroid(commonExtension: CommonExtension<*, *, *, 
         }
     }
 
-    tasks.withType<KotlinCompile>().configureEach {
+    tasks.withType<KotlinCompilationTask<*>>().configureEach {
         compilerOptions {
             jvmTarget.set(AndroidConfig.JvmTarget)
             freeCompilerArgs.addAll(
