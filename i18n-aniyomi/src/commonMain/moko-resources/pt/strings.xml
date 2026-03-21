@@ -62,7 +62,7 @@
     <string name="enable_auto_play">A reprodução automática está ativada</string>
     <string name="disable_auto_play">A reprodução automática está desativada</string>
     <string name="player_aniskip_dontskip">Não saltar</string>
-    <string name="player_aniskip_dontskip_toast">Saltar %s em %d segundos</string>
+    <string name="player_aniskip_dontskip_toast">Saltar %1$s em %2$d segundos</string>
     <string name="player_aniskip_skip">%s saltado</string>
     <string name="no_next_episode">Episódio seguinte não encontrado!</string>
     <string name="player_hwdec_mode">Modo de descodificação por hardware</string>
@@ -178,7 +178,7 @@
     <string name="snack_add_to_manga_library">Adicionar mangá à biblioteca?</string>
     <string name="snack_add_to_anime_library">Adicionar anime à biblioteca?</string>
     <string name="display_mode_episode">Episódio %1$s</string>
-    <string name="episode_downloading_progress">A descarregar (%d%%)</string>
+    <string name="episode_downloading_progress">A descarregar (%1$d%%)</string>
     <string name="download_error">Erro</string>
     <string name="download_paused">Pausado</string>
     <string name="show_episode_number">Número do episódio</string>
@@ -398,7 +398,7 @@
     <string name="player_sheets_filters_Saturation">Saturação</string>
     <string name="player_sheets_filters_hue">Tonalidade</string>
     <string name="player_sheets_qualities_title">Qualidades</string>
-    <string name="player_sheets_decoder_formatted">%s (%s)</string>
+    <string name="player_sheets_decoder_formatted">%1$s (%2$s)</string>
     <string name="player_sheets_more_title">Mais</string>
     <string name="pref_audio_channels">Canais de áudio</string>
     <string name="player_sheets_stats_page_chip">Página %d</string>

@@ -49,7 +49,7 @@
     <string name="enable_auto_play">נגינה אוטומטית מופעלת</string>
     <string name="disable_auto_play">נגינה אוטומטית כבויה</string>
     <string name="player_aniskip_dontskip">אל תדלג</string>
-    <string name="player_aniskip_dontskip_toast">דלג %s בעוד %d שניות</string>
+    <string name="player_aniskip_dontskip_toast">דלג %1$s בעוד %2$d שניות</string>
     <string name="player_aniskip_skip">%s דולג</string>
     <string name="no_next_episode">הפרק הבא לא נמצא!</string>
     <string name="player_hwdec_mode">הגדר מצב פענוח חומרה ברירת מחדל</string>
@@ -151,7 +151,7 @@
     <string name="snack_add_to_manga_library">להוסיף מאנגה לספרייה?</string>
     <string name="snack_add_to_anime_library">להוסיף אנימה לספרייה?</string>
     <string name="display_mode_episode">פרק %1$s</string>
-    <string name="episode_downloading_progress">מוריד (%d%%)</string>
+    <string name="episode_downloading_progress">מוריד (%1$d%%)</string>
     <string name="download_error">שגיאה</string>
     <string name="download_paused">מושהה</string>
     <string name="show_episode_number">מספר פרק</string>

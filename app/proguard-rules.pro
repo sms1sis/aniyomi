@@ -80,3 +80,10 @@
 
 # XmlUtil
 -keep public enum nl.adaptivity.xmlutil.EventType { *; }
+
+# Suppress Kotlin metadata warnings due to Kotlin 2.2.0 / R8 mismatch
+-dontwarn kotlin.Metadata
+-dontnote kotlin.Metadata
+
+# Suppress warnings from kotlinx-serialization's embedded R8 rules
+-dontnote kotlinx.serialization.**

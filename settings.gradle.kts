@@ -1,4 +1,13 @@
 pluginManagement {
+    buildscript {
+        repositories {
+            mavenCentral()
+            google()
+        }
+        dependencies {
+            classpath("com.android.tools:r8:9.0.32")
+        }
+    }
     resolutionStrategy {
         eachPlugin {
             val regex = "com.android.(library|application)".toRegex()
