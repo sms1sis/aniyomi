@@ -23,9 +23,9 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ContentCopy
 import androidx.compose.material.icons.outlined.Download
-import androidx.compose.material.icons.outlined.Input
-import androidx.compose.material.icons.outlined.NavigateNext
-import androidx.compose.material.icons.outlined.OpenInNew
+import androidx.compose.material.icons.automirrored.outlined.Input
+import androidx.compose.material.icons.automirrored.outlined.NavigateNext
+import androidx.compose.material.icons.automirrored.outlined.OpenInNew
 import androidx.compose.material.icons.outlined.SystemUpdateAlt
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -625,7 +625,7 @@ private fun QualityOptions(
 
         ClickableRow(
             text = stringResource(AYMR.strings.action_play_externally),
-            icon = Icons.Outlined.OpenInNew,
+            icon = Icons.AutoMirrored.Outlined.OpenInNew,
             onClick = {
                 onExtPlayerClicked()
                 closeMenu()
@@ -634,7 +634,7 @@ private fun QualityOptions(
 
         ClickableRow(
             text = stringResource(AYMR.strings.action_play_internally),
-            icon = Icons.Outlined.Input,
+            icon = Icons.AutoMirrored.Outlined.Input,
             onClick = {
                 onIntPlayerClicked()
                 closeMenu()
@@ -679,7 +679,7 @@ private fun ClickableRow(
 
         if (showDropdownArrow) {
             Icon(
-                imageVector = Icons.Outlined.NavigateNext,
+                imageVector = Icons.AutoMirrored.Outlined.NavigateNext,
                 contentDescription = null,
                 modifier = Modifier,
                 tint = MaterialTheme.colorScheme.onSurface,

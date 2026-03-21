@@ -17,6 +17,7 @@ import eu.kanade.tachiyomi.network.awaitSuccess
 import eu.kanade.tachiyomi.util.storage.getUriCompat
 import eu.kanade.tachiyomi.util.system.isPackageInstalled
 import kotlinx.coroutines.isActive
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.emitAll
@@ -93,6 +94,7 @@ internal class AnimeExtensionInstaller(private val context: Context) {
                     },
                 )
             } catch (e: Exception) {
+                if (e is CancellationException) throw e
                 logcat(LogPriority.ERROR, e) { "Failed to download extension" }
                 if (kotlinx.coroutines.currentCoroutineContext().isActive) {
                     emit(InstallStep.Error)
