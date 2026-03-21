@@ -30,7 +30,7 @@ import eu.kanade.tachiyomi.util.system.getBitmapOrNull
 import eu.kanade.tachiyomi.util.system.notificationBuilder
 import eu.kanade.tachiyomi.util.system.notify
 import tachiyomi.core.common.i18n.stringResource
-import tachiyomi.core.common.util.lang.launchUI
+import tachiyomi.core.common.util.lang.withUIContext
 import tachiyomi.domain.entries.anime.model.Anime
 import tachiyomi.domain.items.episode.model.Episode
 import tachiyomi.domain.library.anime.LibraryAnime
@@ -231,7 +231,7 @@ class AnimeLibraryUpdateNotifier(
 
         // Per-anime notification
         if (!securityPreferences.hideNotificationContent().get()) {
-            launchUI {
+            withUIContext {
                 context.notify(
                     updates.map { (anime, episodes) ->
                         NotificationManagerCompat.NotificationWithIdAndTag(

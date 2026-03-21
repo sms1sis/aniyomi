@@ -169,7 +169,7 @@ class AniyomiMPVView(context: Context, attributes: AttributeSet) : BaseMPVView(c
     }
 
     fun onKey(event: KeyEvent): Boolean {
-        if (event.action == KeyEvent.ACTION_MULTIPLE || KeyEvent.isModifierKey(event.keyCode)) {
+        if (KeyEvent.isModifierKey(event.keyCode)) {
             return false
         }
 

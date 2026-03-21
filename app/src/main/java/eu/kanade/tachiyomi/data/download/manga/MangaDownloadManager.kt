@@ -5,6 +5,9 @@ import eu.kanade.tachiyomi.data.download.manga.model.MangaDownload
 import eu.kanade.tachiyomi.source.MangaSource
 import eu.kanade.tachiyomi.source.model.Page
 import eu.kanade.tachiyomi.util.size
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.drop
@@ -47,6 +50,8 @@ class MangaDownloadManager(
     private val sourceManager: MangaSourceManager = Injekt.get(),
     private val downloadPreferences: DownloadPreferences = Injekt.get(),
 ) {
+
+    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
     /**
      * Downloader whose only task is to download chapters.
@@ -262,7 +267,7 @@ class MangaDownloadManager(
      * @param source the source of the chapters.
      */
     fun deleteChapters(chapters: List<Chapter>, manga: Manga, source: MangaSource) {
-        launchIO {
+        scope.launchIO {
             val filteredChapters = getChaptersToDelete(chapters, manga)
             if (filteredChapters.isEmpty()) {
                 return@launchIO
@@ -289,7 +294,7 @@ class MangaDownloadManager(
      * @param removeQueued whether to also remove queued downloads.
      */
     fun deleteManga(manga: Manga, source: MangaSource, removeQueued: Boolean = true) {
-        launchIO {
+        scope.launchIO {
             if (removeQueued) {
                 downloader.removeFromQueue(manga)
             }
