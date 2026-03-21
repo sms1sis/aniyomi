@@ -1,0 +1,74 @@
+name: Manual Release Build
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    tags:
+      - v*
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build app
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clone repo
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: Set up JDK
+        uses: actions/setup-java@3a4f6e1af504cf6a31855fa899c6aa5355ba6c12 # v4.7.0
+        with:
+          java-version: 17
+          distribution: temurin
+
+      - name: Set up gradle
+        uses: gradle/actions/setup-gradle@94baf225fe0a508e581a564467443d0e2379123b # v4.3.0
+
+      - name: Build app
+        run: ./gradlew assembleRelease -Penable-updater
+
+      - name: Sign APK (Official Key)
+        if: secrets.SIGNING_KEY != null
+        uses: r0adkll/sign-android-release@f30bdd30588842ac76044ecdbd4b6d0e3e813478 # v1
+        with:
+          releaseDirectory: app/build/outputs/apk/release
+          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
+          alias: ${{ secrets.ALIAS }}
+          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
+          keyPassword: ${{ secrets.KEY_PASSWORD }}
+        env:
+          BUILD_TOOLS_VERSION: '35.0.1'
+
+      - name: Sign APK (Temporary Key)
+        if: secrets.SIGNING_KEY == null
+        run: |
+          keytool -genkey -v -keystore temp.keystore -alias temp -keyalg RSA -keysize 2048 -validity 10000 -storepass password -keypass password -dname "CN=Aniyomi, OU=Aniyomi, O=Aniyomi, L=Aniyomi, S=Aniyomi, C=US"
+          for apk in app/build/outputs/apk/release/*-unsigned.apk; do
+            signed_apk="${apk%-unsigned.apk}.apk"
+            $ANDROID_HOME/build-tools/35.0.1/apksigner sign --ks temp.keystore --ks-key-alias temp --ks-pass pass:password --key-pass pass:password --out "$signed_apk" "$apk"
+          done
+
+      - name: Upload APKs
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: aniyomi-apks
+          path: |
+            app/build/outputs/apk/release/*.apk
+            !app/build/outputs/apk/release/*-unsigned.apk
+
+      - name: Create Release (Tags only)
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@c95fe1489396fe8a9eb87c0abf8aa5b2ef267fda # v2.2.1
+        with:
+          files: |
+            app/build/outputs/apk/release/*.apk
+            !app/build/outputs/apk/release/*-unsigned.apk
+          draft: true
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
