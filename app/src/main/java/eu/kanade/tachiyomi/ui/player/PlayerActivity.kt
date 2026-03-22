@@ -43,6 +43,7 @@ import android.util.Rational
 import android.view.KeyEvent
 import android.view.View
 import android.view.WindowManager
+import androidx.activity.addCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.compose.ui.Modifier
@@ -226,6 +227,10 @@ class PlayerActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        onBackPressedDispatcher.addCallback(this) {
+            handleBackPressed()
+        }
+
         setupPlayerMPV()
         setupPlayerAudio()
         setupMediaSession()
@@ -344,22 +349,31 @@ class PlayerActivity : BaseActivity() {
 
     override fun onUserLeaveHint() {
         if (isPipSupportedAndEnabled && player.paused == false && playerPreferences.pipOnExit().get()) {
-            enterPictureInPictureMode()
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                enterPictureInPictureMode(createPipParams())
+            } else {
+                @Suppress("DEPRECATION")
+                enterPictureInPictureMode()
+            }
         }
         super.onUserLeaveHint()
     }
 
-    @Deprecated("Deprecated in Java")
-    override fun onBackPressed() {
+    private fun handleBackPressed() {
         if (isPipSupportedAndEnabled && player.paused == false && playerPreferences.pipOnExit().get()) {
             if (viewModel.sheetShown.value == Sheets.None &&
                 viewModel.panelShown.value == Panels.None &&
                 viewModel.dialogShown.value == Dialogs.None
             ) {
-                enterPictureInPictureMode()
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    enterPictureInPictureMode(createPipParams())
+                } else {
+                    @Suppress("DEPRECATION")
+                    enterPictureInPictureMode()
+                }
             }
         } else {
-            super.onBackPressed()
+            finish()
         }
     }
 

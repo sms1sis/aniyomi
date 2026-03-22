@@ -141,7 +141,11 @@ class PlayerViewModelProviderFactory(
     private val activity: PlayerActivity,
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>, extras: CreationExtras): T {
-        return PlayerViewModel(activity, extras.createSavedStateHandle()) as T
+        if (modelClass.isAssignableFrom(PlayerViewModel::class.java)) {
+            @Suppress("UNCHECKED_CAST")
+            return PlayerViewModel(activity, extras.createSavedStateHandle()) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }
 
@@ -893,11 +897,12 @@ class PlayerViewModel @JvmOverloads constructor(
 
     private val inputMethodManager = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
     private fun forceShowSoftwareKeyboard() {
+        @Suppress("DEPRECATION")
         inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
     }
 
     private fun forceHideSoftwareKeyboard() {
-        inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0)
+        inputMethodManager.hideSoftInputFromWindow(activity.window.decorView.windowToken, 0)
     }
 
     private val doubleTapToSeekDuration = gesturePreferences.skipLengthPreference().get()
