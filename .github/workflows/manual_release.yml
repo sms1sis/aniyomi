@@ -53,21 +53,13 @@ jobs:
       - name: Prepare APKs
         run: |
           mkdir -p artifacts
-          # Move officially signed APKs if they exist
-          if ls app/build/outputs/apk/release/*-signed.apk 1> /dev/null 2>&1; then
-            for apk in app/build/outputs/apk/release/*-signed.apk; do
-              name=$(basename "$apk" | sed 's/-release-unsigned-signed//' | sed 's/app/aniyomi/')
-              mv "$apk" "artifacts/$name"
-            done
-          # Otherwise move the temporary signed APKs
-          else
-            for apk in app/build/outputs/apk/release/*.apk; do
-              if [[ $apk != *"unsigned"* ]] && [[ $apk != *"aligned"* ]]; then
-                name=$(basename "$apk" | sed 's/-release//' | sed 's/app/aniyomi/')
-                mv "$apk" "artifacts/$name"
-              fi
-            done
-          fi
+          for apk in app/build/outputs/apk/release/*.apk; do
+            if [[ $apk != *"unsigned"* ]] && [[ $apk != *"aligned"* ]]; then
+              # Clean up the name: app-arm64-v8a-release-signed.apk -> aniyomi-arm64-v8a.apk
+              name=$(basename "$apk" | sed 's/-release-unsigned-signed//' | sed 's/-unsigned-signed//' | sed 's/-signed//' | sed 's/-release//' | sed 's/app/aniyomi/')
+              cp "$apk" "artifacts/$name"
+            fi
+          done
 
       - name: Upload APKs
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
@@ -82,5 +74,6 @@ jobs:
           files: artifacts/*.apk
           draft: true
           prerelease: false
+          generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
