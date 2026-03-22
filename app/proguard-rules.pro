@@ -87,3 +87,15 @@
 
 # Suppress warnings from kotlinx-serialization's embedded R8 rules
 -dontnote kotlinx.serialization.**
+
+# Suppress warnings for missing androidx.window extensions/sidecar classes
+-dontwarn androidx.window.extensions.**
+-dontwarn androidx.window.sidecar.**
+
+# Suppress warnings for missing GraalVM/Oracle SVM classes (used by OkHttp/Okio)
+-dontwarn com.oracle.svm.**
+-dontwarn org.graalvm.**
+-dontwarn java.lang.Module
+
+# Suppress warnings for missing JSpecify annotations
+-dontwarn org.jspecify.annotations.NullMarked
