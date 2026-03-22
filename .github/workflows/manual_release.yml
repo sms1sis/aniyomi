@@ -87,14 +87,18 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         id: changelog
         run: |
-          latest_tag=$(git tag --sort=-creatordate | head -n 2 | tail -n 1)
-          if [ -z "$latest_tag" ]; then
-            echo "No previous tag found. Generating log from history."
-            log=$(git log --oneline --no-merges -n 20)
+          all_tags=$(git tag --sort=-creatordate)
+          tag_count=$(echo "$all_tags" | grep -c . || echo 0)
+          
+          if [ "$tag_count" -le 1 ]; then
+            echo "First tag detected. Generating log from recent history."
+            log=$(git log --oneline --no-merges -n 25)
           else
-            echo "Comparing with tag $latest_tag"
-            log=$(git log --oneline --no-merges $latest_tag..HEAD)
+            prev_tag=$(echo "$all_tags" | sed -n '2p')
+            echo "Comparing current tag with previous tag: $prev_tag"
+            log=$(git log --oneline --no-merges $prev_tag..HEAD)
           fi
+          
           echo "changelog_body<<EOF" >> $GITHUB_OUTPUT
           echo "$log" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
