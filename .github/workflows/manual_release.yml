@@ -54,12 +54,19 @@ jobs:
         run: |
           mkdir -p artifacts
           for apk in app/build/outputs/apk/release/*.apk; do
-            if [[ $apk != *"unsigned"* ]] && [[ $apk != *"aligned"* ]]; then
-              # Clean up the name: app-arm64-v8a-release-signed.apk -> aniyomi-arm64-v8a.apk
-              name=$(basename "$apk" | sed 's/-release-unsigned-signed//' | sed 's/-unsigned-signed//' | sed 's/-signed//' | sed 's/-release//' | sed 's/app/aniyomi/')
+            filename=$(basename "$apk")
+            if [[ $filename == *"-signed.apk" ]]; then
+              # Clean up officially signed name
+              name=$(echo "$filename" | sed 's/-release-unsigned-signed//;s/-unsigned-signed//;s/-signed//;s/app/aniyomi/')
+              cp "$apk" "artifacts/$name"
+            elif [[ "${{ env.HAS_SIGNING_KEY }}" != "true" ]] && [[ $filename != *"unsigned"* ]] && [[ $filename != *"aligned"* ]]; then
+              # Clean up temp signed name
+              name=$(echo "$filename" | sed 's/-release//;s/app/aniyomi/')
               cp "$apk" "artifacts/$name"
             fi
           done
+          echo "Contents of artifacts directory:"
+          ls -l artifacts/
 
       - name: Upload APKs
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
