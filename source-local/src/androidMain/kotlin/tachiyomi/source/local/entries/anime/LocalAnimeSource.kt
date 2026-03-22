@@ -154,23 +154,6 @@ actual class LocalAnimeSource(
         }
     }
 
-    // Old fetch functions
-
-    // TODO: Should be replaced when Anime Extensions get to 1.15
-
-    @Deprecated("Use the non-RxJava API instead", replaceWith = ReplaceWith("getPopularAnime"))
-    override fun fetchPopularAnime(page: Int) = fetchSearchAnime(page, "", PopularFilters)
-
-    @Deprecated("Use the non-RxJava API instead", replaceWith = ReplaceWith("getLatestUpdates"))
-    override fun fetchLatestUpdates(page: Int) = fetchSearchAnime(page, "", LatestFilters)
-
-    @Deprecated("Use the non-RxJava API instead", replaceWith = ReplaceWith("getSearchAnime"))
-    override fun fetchSearchAnime(page: Int, query: String, filters: AnimeFilterList): Observable<AnimesPage> {
-        return runBlocking {
-            Observable.just(getSearchAnime(page, query, filters))
-        }
-    }
-
     // Anime details related
     override suspend fun getAnimeDetails(anime: SAnime): SAnime = withIOContext {
         coverManager.find(anime.url)?.let {
