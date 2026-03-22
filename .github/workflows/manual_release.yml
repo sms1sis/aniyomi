@@ -39,7 +39,7 @@ jobs:
           keyStorePassword: ${{ secrets.RELEASE_KEYSTORE_PASSWORD }}
           keyPassword: ${{ secrets.RELEASE_KEY_PASSWORD }}
         env:
-          BUILD_TOOLS_VERSION: '35.0.1'
+          BUILD_TOOLS_VERSION: '36.0.0'
 
       - name: Sign APK (Temporary Key)
         if: env.HAS_SIGNING_KEY != 'true'
@@ -47,7 +47,7 @@ jobs:
           keytool -genkey -v -keystore temp.keystore -alias temp -keyalg RSA -keysize 2048 -validity 10000 -storepass password -keypass password -dname "CN=Aniyomi, OU=Aniyomi, O=Aniyomi, L=Aniyomi, S=Aniyomi, C=US"
           for apk in app/build/outputs/apk/release/*-unsigned.apk; do
             signed_apk="${apk%-unsigned.apk}.apk"
-            $ANDROID_HOME/build-tools/35.0.1/apksigner sign --ks temp.keystore --ks-key-alias temp --ks-pass pass:password --key-pass pass:password --out "$signed_apk" "$apk"
+            $ANDROID_HOME/build-tools/36.0.0/apksigner sign --ks temp.keystore --ks-key-alias temp --ks-pass pass:password --key-pass pass:password --out "$signed_apk" "$apk"
           done
 
       - name: Upload APKs
